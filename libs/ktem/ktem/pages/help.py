@@ -2,13 +2,13 @@ from importlib.metadata import version
 from pathlib import Path
 
 import gradio as gr
-import requests
 from theflow.settings import settings
+from security import safe_requests
 
 
 def get_remote_doc(url: str) -> str:
     try:
-        res = requests.get(url)
+        res = safe_requests.get(url)
         res.raise_for_status()
         return res.text
     except Exception as e:
@@ -18,7 +18,7 @@ def get_remote_doc(url: str) -> str:
 
 def download_changelogs(release_url: str) -> str:
     try:
-        res = requests.get(release_url).json()
+        res = safe_requests.get(release_url).json()
         changelogs = res.get("body", "")
 
         return changelogs

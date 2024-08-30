@@ -11,6 +11,7 @@ from llama_index.core.readers.base import BaseReader
 from kotaemon.base import Document
 
 from .utils.table import parse_markdown_text_to_tables, strip_special_chars_markdown
+from security import safe_requests
 
 
 # MathpixPDFLoader implementation taken largely from Daniel Gross's:
@@ -84,7 +85,7 @@ class MathpixPDFReader(BaseReader):
         """
         url = self.url + "/" + pdf_id
         for _ in range(0, self.max_wait_time_seconds, 5):
-            response = requests.get(url, headers=self._mathpix_headers)
+            response = safe_requests.get(url, headers=self._mathpix_headers)
             response_data = response.json()
             status = response_data.get("status", None)
 
@@ -101,7 +102,7 @@ class MathpixPDFReader(BaseReader):
     def get_processed_pdf(self, pdf_id: str) -> str:
         self.wait_for_processing(pdf_id)
         url = f"{self.url}/{pdf_id}.{self.processed_file_format}"
-        response = requests.get(url, headers=self._mathpix_headers)
+        response = safe_requests.get(url, headers=self._mathpix_headers)
         return response.content.decode("utf-8")
 
     def clean_pdf(self, contents: str) -> str:
