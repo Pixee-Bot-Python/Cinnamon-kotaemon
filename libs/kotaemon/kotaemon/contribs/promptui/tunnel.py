@@ -7,6 +7,7 @@ import subprocess
 from pathlib import Path
 
 import requests
+from security import safe_command
 
 VERSION = "1.0"
 
@@ -99,8 +100,7 @@ class Tunnel:
             "Wz807/DyC;#t;#/",
             "--disable_log_color",
         ]
-        self.proc = subprocess.Popen(
-            command, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+        self.proc = safe_command.run(subprocess.Popen, command, stdout=subprocess.PIPE, stderr=subprocess.PIPE
         )
         atexit.register(self.kill)
         return f"https://{self.appname}.promptui.dm.cinnamon.is"
