@@ -8,6 +8,7 @@ from theflow.utils.modules import deserialize
 from kotaemon.embeddings.base import BaseEmbeddings
 
 from .db import EmbeddingTable, engine
+import secrets
 
 
 class EmbeddingManager:
@@ -92,12 +93,11 @@ class EmbeddingManager:
         Returns:
             str: random model name in the pool
         """
-        import random
 
         if not self._models:
             raise ValueError("No models in pool")
 
-        return random.choice(list(self._models.keys()))
+        return secrets.choice(list(self._models.keys()))
 
     def get_default_name(self) -> str:
         """Get the name of default model

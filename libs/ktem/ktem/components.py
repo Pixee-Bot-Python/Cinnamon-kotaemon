@@ -10,6 +10,7 @@ from theflow.utils.modules import deserialize
 
 from kotaemon.base import BaseComponent
 from kotaemon.storages import BaseDocumentStore, BaseVectorStore
+import secrets
 
 logger = logging.getLogger(__name__)
 
@@ -98,12 +99,11 @@ class ModelPool:
         Returns:
             str: random model name in the pool
         """
-        import random
 
         if not self._conf:
             raise ValueError("No models in pool")
 
-        return random.choice(list(self._conf.keys()))
+        return secrets.choice(list(self._conf.keys()))
 
     def get_default_name(self) -> str:
         """Get the name of default model
@@ -118,9 +118,8 @@ class ModelPool:
             raise ValueError("No models in pool")
 
         if self._default:
-            import random
 
-            return random.choice(self._default)
+            return secrets.choice(self._default)
 
         return self.get_random_name()
 
