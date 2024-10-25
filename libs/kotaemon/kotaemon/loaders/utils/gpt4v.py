@@ -45,7 +45,7 @@ def generate_gpt4v(
     if len(images) > max_images:
         print(f"Truncated to {max_images} images (original {len(images)} images")
 
-    response = requests.post(endpoint, headers=headers, json=payload)
+    response = requests.post(endpoint, headers=headers, json=payload, timeout=60)
 
     try:
         response.raise_for_status()
@@ -96,7 +96,7 @@ def stream_gpt4v(
     if len(images) > max_images:
         print(f"Truncated to {max_images} images (original {len(images)} images")
     try:
-        response = requests.post(endpoint, headers=headers, json=payload, stream=True)
+        response = requests.post(endpoint, headers=headers, json=payload, stream=True, timeout=60)
         assert response.status_code == 200, str(response.content)
         output = ""
         logprobs = []
