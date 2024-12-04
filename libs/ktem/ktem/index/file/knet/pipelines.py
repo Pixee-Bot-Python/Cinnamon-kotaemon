@@ -3,14 +3,13 @@ import json
 import os
 from pathlib import Path
 from typing import Optional, Sequence
-
-import requests
 import yaml
 
 from kotaemon.base import RetrievedDocument
 from kotaemon.indices.rankings import BaseReranking, LLMReranking, LLMTrulensScoring
 
 from ..pipelines import BaseFileIndexRetriever, IndexDocumentPipeline, IndexPipeline
+from security import safe_requests
 
 
 class KnetIndexingPipeline(IndexDocumentPipeline):
@@ -80,7 +79,7 @@ class KnetRetrievalPipeline(BaseFileIndexRetriever):
             "meta_filters": {"doc_name": doc_ids},
         }
         params["meta_filters"] = json.dumps(params["meta_filters"])
-        response = requests.get(self.DEFAULT_KNET_ENDPOINT, params=params)
+        response = safe_requests.get(self.DEFAULT_KNET_ENDPOINT, params=params)
         metadata_translation = {
             "TABLE": "table",
             "FIGURE": "image",
