@@ -12,6 +12,7 @@ from kotaemon.contribs.promptui.base import get_component
 from kotaemon.contribs.promptui.export import export
 
 from ..logs import ResultLog
+import fickling
 
 USAGE_INSTRUCTION = """## How to use:
 
@@ -133,7 +134,7 @@ def load_saved_params(path: str) -> Dict:
     data: Dict[str, Any] = {"_id": [None] * len(files)}
     for idx, each_file in enumerate(files):
         with open(each_file, "rb") as f:
-            each_data = pickle.load(f)
+            each_data = fickling.load(f)
         data["_id"][idx] = Path(each_file).stem
         for key, value in each_data.items():
             if key not in data:
