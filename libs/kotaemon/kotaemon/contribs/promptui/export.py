@@ -1,6 +1,5 @@
 """Export logs into Excel file"""
 import os
-import pickle
 from pathlib import Path
 from typing import Any, Dict, List, Type, Union
 
@@ -12,6 +11,7 @@ from theflow.utils.modules import import_dotted_string
 from kotaemon.base import BaseComponent
 
 from .logs import ResultLog
+import fickling
 
 
 def from_log_to_dict(pipeline_cls: Type[BaseComponent], log_config: dict) -> dict:
@@ -43,7 +43,7 @@ def from_log_to_dict(pipeline_cls: Type[BaseComponent], log_config: dict) -> dic
         params_file = os.path.join(each_dir, "params.pkl")
         if os.path.exists(params_file):
             with open(params_file, "rb") as f:
-                each_params = pickle.load(f)
+                each_params = fickling.load(f)
             for key, value in each_params.items():
                 if key not in params:
                     params[key] = [None] * len(dirs)
@@ -53,7 +53,7 @@ def from_log_to_dict(pipeline_cls: Type[BaseComponent], log_config: dict) -> dic
         progress_file = os.path.join(each_dir, "progress.pkl")
         if os.path.exists(progress_file):
             with open(progress_file, "rb") as f:
-                progress = pickle.load(f)
+                progress = fickling.load(f)
 
             for name, col_info in log_config.items():
                 step = col_info["step"]
