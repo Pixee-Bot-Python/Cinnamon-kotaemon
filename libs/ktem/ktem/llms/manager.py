@@ -8,6 +8,7 @@ from theflow.utils.modules import deserialize, import_dotted_string
 from kotaemon.llms import ChatLLM
 
 from .db import LLMTable, engine
+import secrets
 
 
 class LLMManager:
@@ -99,12 +100,11 @@ class LLMManager:
         Returns:
             str: random model name in the pool
         """
-        import random
 
         if not self._models:
             raise ValueError("No models in pool")
 
-        return random.choice(list(self._models.keys()))
+        return secrets.choice(list(self._models.keys()))
 
     def get_default_name(self) -> str:
         """Get the name of default model
