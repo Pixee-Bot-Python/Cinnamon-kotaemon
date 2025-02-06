@@ -80,7 +80,7 @@ class KnetRetrievalPipeline(BaseFileIndexRetriever):
             "meta_filters": {"doc_name": doc_ids},
         }
         params["meta_filters"] = json.dumps(params["meta_filters"])
-        response = requests.get(self.DEFAULT_KNET_ENDPOINT, params=params)
+        response = requests.get(self.DEFAULT_KNET_ENDPOINT, params=params, timeout=60)
         metadata_translation = {
             "TABLE": "table",
             "FIGURE": "image",

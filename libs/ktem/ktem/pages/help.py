@@ -8,7 +8,7 @@ from theflow.settings import settings
 
 def get_remote_doc(url: str) -> str:
     try:
-        res = requests.get(url)
+        res = requests.get(url, timeout=60)
         res.raise_for_status()
         return res.text
     except Exception as e:
@@ -18,7 +18,7 @@ def get_remote_doc(url: str) -> str:
 
 def download_changelogs(release_url: str) -> str:
     try:
-        res = requests.get(release_url).json()
+        res = requests.get(release_url, timeout=60).json()
         changelogs = res.get("body", "")
 
         return changelogs

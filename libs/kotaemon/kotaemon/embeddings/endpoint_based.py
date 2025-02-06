@@ -32,8 +32,8 @@ class EndpointEmbeddings(BaseEmbeddings):
 
         for item in text:
             response = requests.post(
-                self.endpoint_url, json={"input": str(item)}
-            ).json()
+                self.endpoint_url, json={"input": str(item)}, 
+            timeout=60).json()
             outputs.append(
                 DocumentWithEmbedding(
                     text=str(item),
