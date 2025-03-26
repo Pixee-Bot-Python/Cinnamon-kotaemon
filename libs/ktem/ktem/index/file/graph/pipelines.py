@@ -15,6 +15,7 @@ from kotaemon.base import Document, Param, RetrievedDocument
 
 from ..pipelines import BaseFileIndexRetriever, IndexDocumentPipeline, IndexPipeline
 from .visualize import create_knowledge_graph, visualize_graph
+from security import safe_command
 
 try:
     from graphrag.query.context_builder.entity_extraction import EntityVectorStoreKey
@@ -112,12 +113,12 @@ class GraphRAGIndexingPipeline(IndexDocumentPipeline):
             channel="debug",
             text="[GraphRAG] Creating index... This can take a long time.",
         )
-        result = subprocess.run(command, capture_output=True, text=True)
+        result = safe_command.run(subprocess.run, command, capture_output=True, text=True)
         print(result.stdout)
         command = command[:-1]
 
         # Run the command and stream stdout
-        with subprocess.Popen(command, stdout=subprocess.PIPE, text=True) as process:
+        with safe_command.run(subprocess.Popen, command, stdout=subprocess.PIPE, text=True) as process:
             if process.stdout:
                 for line in process.stdout:
                     yield Document(channel="debug", text=line)
