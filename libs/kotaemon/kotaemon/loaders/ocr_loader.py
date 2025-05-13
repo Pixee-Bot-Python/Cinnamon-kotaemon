@@ -27,7 +27,7 @@ def tenacious_api_post(url, file_path, table_only, **kwargs):
     with file_path.open("rb") as content:
         files = {"input": content}
         data = {"job_id": uuid4(), "table_only": table_only}
-        resp = requests.post(url=url, files=files, data=data, **kwargs)
+        resp = requests.post(url=url, files=files, data=data, **kwargs, timeout=60)
         resp.raise_for_status()
     return resp
 

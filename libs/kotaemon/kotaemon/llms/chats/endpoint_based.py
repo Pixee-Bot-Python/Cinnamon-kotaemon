@@ -56,7 +56,7 @@ class EndpointChatLLM(ChatLLM):
             "messages": [{"content": m.text, "role": decide_role(m)} for m in input_]
         }
 
-        response = requests.post(self.endpoint_url, json=request_json).json()
+        response = requests.post(self.endpoint_url, json=request_json, timeout=60).json()
 
         content = ""
         candidates = []
