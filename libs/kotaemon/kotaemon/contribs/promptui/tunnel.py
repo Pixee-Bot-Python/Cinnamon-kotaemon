@@ -5,8 +5,7 @@ import platform
 import stat
 import subprocess
 from pathlib import Path
-
-import requests
+from security import safe_requests
 
 VERSION = "1.0"
 
@@ -40,7 +39,7 @@ class Tunnel:
     def download_binary():
         if not Path(BINARY_PATH).exists():
             print("First time setting tunneling...")
-            resp = requests.get(BINARY_URL)
+            resp = safe_requests.get(BINARY_URL)
 
             if resp.status_code == 404:
                 raise OSError(
