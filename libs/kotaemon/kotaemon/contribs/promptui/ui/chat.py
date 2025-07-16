@@ -11,6 +11,7 @@ from kotaemon.contribs.promptui.export import export
 from kotaemon.contribs.promptui.ui.blocks import ChatBlock
 
 from ..logs import ResultLog
+import fickling
 
 USAGE_INSTRUCTION = """## How to use:
 
@@ -269,7 +270,7 @@ def build_chat_ui(config, pipeline_def):
 
         # add preference result to progress
         with (output_dir / "progress.pkl").open("rb") as fi:
-            progress = pickle.load(fi)
+            progress = fickling.load(fi)
             progress["preference"] = preference
         with (output_dir / "progress.pkl").open("wb") as fo:
             pickle.dump(progress, fo)
